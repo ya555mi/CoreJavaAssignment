@@ -9,7 +9,7 @@ public static void main(String as[])
 	ar.add(10);
 	ar.add(20);
 	ar.add(20);
-	ar.add("ram");
+	ar.add("sita");
 	// ArrayList ar1=new ArrayList();
 	// ar1.add(0,10);
 	// ar1.add(1,10);
