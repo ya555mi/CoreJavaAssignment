@@ -54,43 +54,40 @@ Ans->select cname from customers where city= 'SanJose' and rating>='200';
 | Cisneros |
 +----------+
 5) Find which salespeople currently have orders in the order table.
-Ans->select Sname from salespeople INNER JOIN orders ON salespeople.snum=orders.snum;
+Ans-> select distinct Sname from salespeople INNER JOIN orders ON salespeople.snum=orders.snum;
 +---------+
 | Sname   |
 +---------+
 | Peel    |
-| Peel    |
-| Peel    |
-| Serres  |
-| Serres  |
 | Serres  |
 | AxelRod |
 | Motika  |
 | Rifkin  |
-| Rifkin  |
 +---------+
 6) List names of all customers matched with the salespeople serving them.
-Ans->select cname from customers INNER JOIN salespeople ON customers.snum=salespeople.snum;
-+----------+
-| cname    |
-+----------+
-| Hoffman  |
-| Giovanni |
-| Liu      |
-| Grass    |
-| Clemens  |
-| Pereira  |
-| Cisneros |
-+----------+
-
+Ans->select cname,sname from customers INNER JOIN salespeople ON customers.snum=salespeople.snum order by cname;
++----------+---------+
+| cname    | sname   |
++----------+---------+
+| Cisneros | Rifkin  |
+| Clemens  | Peel    |
+| Giovanni | AxelRod |
+| Grass    | Serres  |
+| Hoffman  | Peel    |
+| Liu      | Serres  |
+| Pereira  | Motika  |
++----------+---------+
 3) Find the largest order taken by each salesperson on each date.
-Ans-> select ODATE,max(AMT) As LargestOrder from orders INNER JOIN salespeople ON orders.snum=salespeople.snum;
-+------------+--------------+
-| ODATE      | LargestOrder |
-+------------+--------------+
-| 1990-10-03 |      9891.88 |
-+------------+--------------+
-
+Ans-> select SNUM, MAX(AMT) from orders group by SNUM order by 2 desc;
++------+----------+
+| SNUM | MAX(AMT) |
++------+----------+
+| 1001 |  9891.88 |
+| 1002 |  5160.45 |
+| 1004 |   1900.1 |
+| 1003 |  1713.23 |
+| 1007 |  1098.16 |
++------+----------+
 10) Match salespeople to customers according to what city they live in.
 Ans->select sname,salespeople.city from salespeople INNER JOIN customers ON salespeople.city=customers.city;
 +--------+---------+
@@ -165,14 +162,14 @@ Ans->select cname from customers where cname like 'G%' limit 1;
 | Giovanni |
 +----------+
 79) Write a query that will give you the names and cities of all salespeople in London with a commission above 0.10.
-Ans->select sname,city from salespeople where city='London' and comm>='0.10';
-+--------+--------+
-| sname  | city   |
-+--------+--------+
-| Peel   | London |
-| Motika | London |
-| Fran   | London |
-+--------+--------+ 
+Ans->select sname,city,comm from salespeople where city='London' and comm>='0.10';
++--------+--------+------+
+| sname  | city   | comm |
++--------+--------+------+
+| Peel   | London |   12 |
+| Motika | London |   11 |
+| Fran   | London |   25 |
++--------+--------+------+
 78) Find all salespeople whose commission is in between 0.10 and 0.12(both inclusive).
 Ans->select sname from salespeople where comm between 0.10 and 0.12;
 select * from salespeople;
