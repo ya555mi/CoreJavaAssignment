@@ -181,16 +181,18 @@ Ans->select * from customers as c INNER JOIN orders as o ON c.cnum=o.cnum  where
 +------+---------+---------+--------+------+------+---------+------------+------+------+
 
 99) Find all orders greater than the average for October 4th.
-Ans->select odate,avg(amt) from orders where odate!='1996-04-10' group by odate;
-+------------+--------------------+
-| odate      | avg(amt)           |
-+------------+--------------------+
-| 1990-10-03 |  946.0350031852722 |
-| 1990-10-02 |    5160.4501953125 |
-| 1990-10-04 |   894.489990234375 |
-| 1990-10-05 |               4723 |
-| 1990-10-06 | 5600.9149169921875 |
-+------------+--------------------+
+Ans->select onum,cnum,odate,amt  from orders where amt>( select avg(amt)  from orders where odate = '1990-10-04');
++------+------+------------+---------+
+| onum | cnum | odate      | amt     |
++------+------+------------+---------+
+| 3002 | 2007 | 1990-10-03 |  1900.1 |
+| 3005 | 2003 | 1990-10-02 | 5160.45 |
+| 3006 | 2008 | 1990-10-03 | 1098.16 |
+| 3008 | 2006 | 1990-10-05 |    4723 |
+| 3009 | 2002 | 1990-10-04 | 1713.23 |
+| 3010 | 2004 | 1990-10-06 | 1309.95 |
+| 3011 | 2006 | 1990-10-06 | 9891.88 |
++------+------+------------+---------+
 98) Which customers have the same rating?
 Ans->select c1.cname,c2.cname,c1.rating from customers  as c1 ,customers as c2 where c1.cnum!=c2.cnum and c1.rating=c2.rating;
 +----------+----------+--------+
@@ -264,7 +266,7 @@ Ans-> select sname,comm,cname,rating from salespeople as s INNER JOIN customers 
 | Motika  |   11 | Pereira  |    100 |
 +---------+------+----------+--------+
 88) Which salespeople have been assigned to the same city but get different commission percentages?
-Ans-> select * from salespeople where city='London';
+Ans-> select * from salespeople where city IN(select city from salespeople group by city having count(city)>1);
 +------+--------+--------+------+
 | SNUM | SNAME  | CITY   | COMM |
 +------+--------+--------+------+
